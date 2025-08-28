@@ -122,7 +122,7 @@ const PropertyDetail: React.FC<{ property: PropertyProps }> = ({ property }) => 
             )}
 
             {activeTab === 'reviews' && (
-              <ReviewSection reviews={reviews} />
+              <ReviewSection propertyId={property.id?.toString() || ''} />
             )}
 
             {activeTab === 'host' && (

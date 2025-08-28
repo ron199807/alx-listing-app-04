@@ -1,6 +1,48 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { ReviewProps } from "@/interfaces/index";
 
-const ReviewSection: React.FC<{ reviews: ReviewProps[] }> = ({ reviews }) => {
+const ReviewSection: React.FC<{ propertyId: string }> = ({ propertyId }) => {
+  const [reviews, setReviews] = useState<ReviewProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`/api/properties/${propertyId}/reviews`);
+        setReviews(response.data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        setError("Failed to load reviews. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (propertyId) {
+      fetchReviews();
+    }
+  }, [propertyId]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-8">
+        <p className="text-gray-500">Loading reviews...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center py-8">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -24,7 +66,7 @@ const ReviewSection: React.FC<{ reviews: ReviewProps[] }> = ({ reviews }) => {
                   <div className="flex items-center space-x-2">
                     <h4 className="font-semibold">{review.name}</h4>
                     <span className="text-gray-500 text-sm">
-                      {new Date().toLocaleDateString()}
+                      {new Date(review.date || Date.now()).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex items-center mt-1">

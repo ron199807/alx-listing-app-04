@@ -31,6 +31,7 @@ export interface Offers {
 }
 
 export interface PropertyProps {
+  id?: number;
   name: string;
   address: Address;
   rating: number;
@@ -64,4 +65,13 @@ export interface PillProps {
 
 export interface LayoutProps {
   children: React.ReactNode;
+}
+
+export interface ReviewProps {
+  id: string;
+  name: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+  date?: string;
 }
