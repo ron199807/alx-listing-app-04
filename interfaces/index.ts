@@ -39,6 +39,21 @@ export interface PropertyProps {
   offers: Offers;
   image: string;
   discount: string;
+  description: string;
+  amenities?: string[];
+  reviewCount?: number;
+   location: {
+    city?: string;
+    address?: string;
+    country?: string;
+  };
+  host?: {
+    name: string;
+    isSuperhost: boolean;
+    avatarUrl: string;
+    description?: string;
+    joinDate?: string;
+  };
 }
 
 export interface PillProps {
